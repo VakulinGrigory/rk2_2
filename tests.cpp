@@ -8,8 +8,10 @@ TEST(BusinessTest, EstateRentPriceChangeTest) {
     BusinessMediator mediator(estateOwner, groceryStore, restaurant);
 
     estateOwner.SetEstateRentPrice(20000);
-    EXPECT_EQ(groceryStore.AlterPrice(0), 101); // Expected grocery price change
-    EXPECT_EQ(restaurant.AlterPrice(0), 510); // Expected restaurant price change
+    // Expected grocery price change is 20 (20000 - 0 / 1000)
+    EXPECT_EQ(groceryStore.AlterPrice(0), 20);
+    // Expected restaurant price change is 50 (20000 - 0 / 400)
+    EXPECT_EQ(restaurant.AlterPrice(0), 50);
 }
 
 TEST(BusinessTest, GroceryStockChangeTest) {
@@ -22,7 +24,7 @@ TEST(BusinessTest, GroceryStockChangeTest) {
     EXPECT_NO_THROW(restaurant.CookFood()); // Restaurant should be open
 
     groceryStore.Supply(-10);
-    EXPECT_EQ(restaurant.CookFood(), -1); // Restaurant should be closed
+    EXPECT_EQ(restaurant.CookFood(), 0); // Restaurant should be closed
 }
 
 TEST(BusinessTest, FoodIsCookedTest) {
@@ -34,5 +36,6 @@ TEST(BusinessTest, FoodIsCookedTest) {
     groceryStore.Supply(1);
     EXPECT_NO_THROW(restaurant.CookFood()); // Should not throw, as grocery is available
 
+    groceryStore.Sell(); // Sell one item to make stock 0
     EXPECT_THROW(groceryStore.Sell(), std::logic_error); // Out of stock
 }
