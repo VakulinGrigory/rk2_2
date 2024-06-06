@@ -27,6 +27,11 @@ jobs:
       run: |
         cd build
         ./tests
+        
+    - name: Run main
+      run: |
+        cd build
+        ./mt
 
     # Загрузка артефактов сборки
     - name: Upload artifact
