@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "BusinessSytem.cpp"
+#include "BusinessSystem.cpp"
 
 TEST(BusinessTest, EstateRentPriceChangeTest) {
     EstateOwner estateOwner;
