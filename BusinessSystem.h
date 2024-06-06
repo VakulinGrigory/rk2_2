@@ -4,14 +4,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-// Define design namespace and AccessKey template
-namespace design {
-    template<typename T>
-    class AccessKey {
-        friend T;
-        AccessKey() {} // Ensure this is defined appropriately
-    };
-}
+#include "AccessKey.h"
 
 class BusinessMediator;
 
