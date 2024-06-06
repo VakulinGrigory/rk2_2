@@ -1,4 +1,4 @@
-#include "BusinessSystem.h"
+ #include "BusinessSystem.h"
 
 // Implementations for EstateOwner
 BusinessMediator* EstateOwner::SetBusinessMediator(design::AccessKey<BusinessMediator>, BusinessMediator* mediator) {
@@ -7,11 +7,31 @@ BusinessMediator* EstateOwner::SetBusinessMediator(design::AccessKey<BusinessMed
     return old;
 }
 
+void EstateOwner::SetEstateRentPrice(std::int32_t newPrice) {
+    if (mediator_) mediator_->EstateRentPriceChanged(rentPrice_, newPrice);
+    rentPrice_ = newPrice;
+}
+
 // Implementations for GroceryStore
 BusinessMediator* GroceryStore::SetBusinessMediator(design::AccessKey<BusinessMediator>, BusinessMediator* mediator) {
     BusinessMediator* old = mediator_;
     mediator_ = mediator;
     return old;
+}
+
+void GroceryStore::Supply(std::int32_t quantity) {
+    stock_ += quantity;
+    if (mediator_) mediator_->GroceryStockChanged(stock_);
+}
+
+std::int32_t GroceryStore::AlterPrice(std::int32_t priceChange) {
+    price_ += priceChange;
+    return price_;
+}
+
+void GroceryStore::Sell() {
+    if (stock_ <= 0) throw std::logic_error("Out of stock");
+    stock_--;
 }
 
 // Implementations for Restaurant
@@ -60,4 +80,8 @@ void BusinessMediator::GroceryStockChanged(std::int32_t newStock) {
 
 void BusinessMediator::GroceryPriceChanged(std::int32_t oldPrice, std::int32_t newPrice) {
     restaurant_.AlterPrice(newPrice - oldPrice);
+}
+
+void BusinessMediator::FoodIsCooked() {
+    // Implementation for when food is cooked
 }
