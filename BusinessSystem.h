@@ -2,6 +2,7 @@
 #define BUSINESSSYSTEM_H
 
 #include <cstdint>
+#include <stdexcept>
 
 // Define design namespace and AccessKey template
 namespace design {
@@ -18,16 +19,23 @@ class BusinessMediator;
 class EstateOwner {
 public:
     BusinessMediator* SetBusinessMediator(design::AccessKey<BusinessMediator>, BusinessMediator* mediator);
+    void SetEstateRentPrice(std::int32_t newPrice);
 private:
     BusinessMediator* mediator_ = nullptr;
+    std::int32_t rentPrice_ = 0;
 };
 
 // GroceryStore Class
 class GroceryStore {
 public:
     BusinessMediator* SetBusinessMediator(design::AccessKey<BusinessMediator>, BusinessMediator* mediator);
+    void Supply(std::int32_t quantity);
+    std::int32_t AlterPrice(std::int32_t priceChange);
+    void Sell();
 private:
     BusinessMediator* mediator_ = nullptr;
+    std::int32_t stock_ = 0;
+    std::int32_t price_ = 0;
 };
 
 // Restaurant Class
@@ -51,6 +59,7 @@ public:
     void EstateRentPriceChanged(std::int32_t oldPrice, std::int32_t newPrice);
     void GroceryStockChanged(std::int32_t newStock);
     void GroceryPriceChanged(std::int32_t oldPrice, std::int32_t newPrice);
+    void FoodIsCooked();
 
 private:
     EstateOwner& estateOwner_;
@@ -59,3 +68,4 @@ private:
 };
 
 #endif // BUSINESSSYSTEM_H
+
